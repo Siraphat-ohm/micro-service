@@ -1,35 +1,18 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Inject, Param, Post, Put } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
-import { UserDTO } from 'src/interfaces/dto/user.dto';
+import { firstValueFrom } from 'rxjs';
+import { IUserGetResponse } from 'src/interfaces/dto/user.dto';
 
 @Controller()
 export class UserController {
   constructor(@Inject("USER_SERVICE") private readonly client: ClientProxy) { }
 
   @Get('user/:id')
-  getUser(@Param('id') id: number): Observable<any> {
-    return this.client.send<any, number>('user', id);
+  async getUser(@Param('id') id: number): Promise<IUserGetResponse> {
+    const userResponse: IUserGetResponse = await firstValueFrom(this.client.send('get_user', id));
+    if ( userResponse.status >= HttpStatus.BAD_REQUEST ){
+      throw new HttpException(userResponse.message, userResponse.status)
+    }
+    return userResponse;
   }
-
-  @Get('users')
-  getUsers() {
-    return this.client.send('users', {});
-  }
-
-  @Post('user')
-  createUser(@Body() user: UserDTO) {
-    return this.client.send('createUser', user);
-  }
-
-  @Put('user/:id')
-  updateUser(@Param('id') id: string, @Body() user: UserDTO) {
-    return this.client.send('updateUser', { id, user});
-  }
-
-  @Delete('user/:id')
-  deleteUser(@Param('id') id: number) {
-    return this.client.send('deleteUser', id);
-  }
-
 }

@@ -1,34 +1,34 @@
 import { Controller } from '@nestjs/common';
 import { UserService } from './user.service';
 import { MessagePattern } from '@nestjs/microservices';
+import { Prisma, User } from '@prisma/client';
 
 @Controller()
 export class UserController {
   constructor(private readonly appService: UserService) {}
 
-  @MessagePattern('user')
+  @MessagePattern('get-user')
   async user(id: string) {
-    return this.appService.user(id);
+    return this.appService.getUserById(Number(id));
   }
 
-  @MessagePattern('users')
-  async users(params: any) {
-    return this.appService.users(params);
+  @MessagePattern('get-users')
+  async users(params: Prisma.UserFindManyArgs) {
+    return this.appService.getUsers(params);
   }
 
-  @MessagePattern('createUser')
-  async createUser(data: any) {
+  @MessagePattern('create-user')
+  async createUser(data: User) {
     return this.appService.createUser(data);
   }
 
-  @MessagePattern('updateUser')
-  async updateUser(params: any) {
-    return this.appService.updateUser(params);
+  @MessagePattern('update-user')
+  async updateUser(id: string, data: Prisma.UserUpdateInput) {
+    return this.appService.updateUser(Number(id), data);
   }
 
-  @MessagePattern('deleteUser')
+  @MessagePattern('delete-user')
   async deleteUser(id: string) {
-    return this.appService.deleteUser(id);
+    return this.appService.deleteUser(Number(id));
   }
-
 }
