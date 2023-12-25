@@ -8,13 +8,13 @@ export class OrderController {
   constructor(private readonly appService: OrderService) {}
 
   @MessagePattern('get-order')
-  async order(id: number){
-    return this.appService.order(id);
+  async order(id: string){
+    return this.appService.getOrderById(Number(id));
   }
 
   @MessagePattern('get-orders')
   async orders(params: Prisma.OrderFindManyArgs){
-    return this.appService.orders(params);
+    return this.appService.getOrders(params);
   }
 
   @MessagePattern('create-order')
@@ -22,4 +22,14 @@ export class OrderController {
     return this.appService.createOrder(order);
   }
 
+  @MessagePattern('update-order')
+  async updateOrder(params: { id: string; data: Order }){
+    const { id, data } = params;
+    return this.appService.updateOrder(Number(id), data);
+  }
+
+  @MessagePattern('delete-order')
+  async deleteOrder(id: string){
+    return this.appService.deleteOrder(Number(id));
+  }
 }
