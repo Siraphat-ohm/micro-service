@@ -122,6 +122,13 @@ export class ProductService {
           errors: null,
         };
       }
+      if ( !data ) {
+        return {
+          status: HttpStatus.BAD_REQUEST,
+          message: 'Product data is required',
+          errors: null,
+        };
+      }
       const foundProduct = await this.prisma.product.findUnique({ where: { id } });
       if (!foundProduct) {
         return {
