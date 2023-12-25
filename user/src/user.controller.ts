@@ -23,7 +23,7 @@ export class UserController {
   }
 
   @MessagePattern('update-user')
-  async updateUser(id: string, data: Prisma.UserUpdateInput) {
+  async updateUser( { id, data }: { id: string, data: User }) {
     return this.appService.updateUser(Number(id), data);
   }
 

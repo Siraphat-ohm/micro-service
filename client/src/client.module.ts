@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ClientService } from './client.service';
 import { ProductController } from './product/client-product.controller';
-import { UserController } from './user/user.controller';
+import { UserController } from './user/client-user.controller';
 import { OrderController } from './order/order.controller';
 
 @Module({

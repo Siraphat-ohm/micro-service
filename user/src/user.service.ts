@@ -32,6 +32,8 @@ export class UserService {
         errors: null,
       }
     } catch ( error ){ 
+      console.log(error);
+      
       return { 
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         message: 'Internal server error',
