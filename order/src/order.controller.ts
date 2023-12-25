@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { OrderService } from './app.service';
+import { OrderService } from './order.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { Order, Prisma } from '@prisma/client';
 

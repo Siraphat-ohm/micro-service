@@ -3,7 +3,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ClientService } from './client.service';
 import { ProductController } from './product/client-product.controller';
 import { UserController } from './user/client-user.controller';
-import { OrderController } from './order/order.controller';
+import { OrderController } from './order/client-order.controller';
 
 @Module({
   imports: [
